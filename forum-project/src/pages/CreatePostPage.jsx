@@ -1,27 +1,25 @@
+import { createClient } from "@supabase/supabase-js";
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
 const CreatePostPage = ({posts, setPosts, id, setId}) => {
 
-  const createPost = (e) => {
+  const createPost = async (e) => {
     //always stop the default action
     e.preventDefault();
-
-    console.log(e.target.subject.value); //subject text
-    console.log(e.target.message.value); //message text
 
     //storing in variable for easier access
     const subject = e.target.subject.value;
     const message = e.target.message.value;
 
-    //append the new post to the old posts list
-    setPosts([...posts, {
-      id,
-      subject,
-      message
-    }])
+    //insert into the database
+    const response = await supabase.from('post').insert({
+      subject: subject,
+      content: message
+    })
 
-    console.log(posts);
-
-    //increment the id 
-    setId(id+1);
+    console.log(response)
 
     console.log("Post created");
   }

@@ -11,27 +11,38 @@
   2. post detail -> post + comments
   3. make post page
 */
+import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import { createClient } from "@supabase/supabase-js";
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-import { useState } from 'react';
-
-import CreatePostPage from './pages/CreatePostPage'
 
 const App = () => {
 
   const [posts, setPosts] = useState([]);
-  const [id, setId] = useState(1);
+
+  useEffect(() => {
+    const getPosts = async () => {
+      const response = await supabase.from('post').select();
+      setPosts(response.data)
+    }
+
+    getPosts();
+  },[])
 
   return (
     <div>
       <h1> WELCOME TO MY FORUM </h1>
 
-      <CreatePostPage posts={posts} setPosts={setPosts} id={id} setId={setId} />
+      <button><Link to='/create'> Create a Post</Link></button>
 
       {posts.map((post) => {
         return(
           <div key={post.id} style={{border:"1px solid red"}}>
             <h4>{post.subject}</h4>
-            <p>{post.message}</p>
+            <p>{post.content}</p>
           </div>
       )})}
 
