@@ -3,7 +3,11 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-const CreatePostPage = ({posts, setPosts, id, setId}) => {
+import { useNavigate } from "react-router-dom";
+
+const CreatePostPage = () => {
+
+  const navigate = useNavigate();
 
   const createPost = async (e) => {
     //always stop the default action
@@ -19,9 +23,14 @@ const CreatePostPage = ({posts, setPosts, id, setId}) => {
       content: message
     })
 
-    console.log(response)
+    //successful post creation
+    if(response.status == 201){
+      alert("Your post has been successfully created");
+      navigate('/');
+    }else{
+      alert("There is something wrong")
+    }
 
-    console.log("Post created");
   }
 
   return (

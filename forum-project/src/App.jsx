@@ -23,26 +23,63 @@ const App = () => {
 
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    const getPosts = async () => {
-      const response = await supabase.from('post').select();
-      setPosts(response.data)
-    }
+  const getPosts = async () => {
+    const response = await supabase.from('post').select();
+    setPosts(response.data)
+  }
 
+  useEffect(() => {
     getPosts();
   },[])
 
+  const deletePost = async (id) => {
+    const response = await supabase.from('post').delete().eq('id', id);
+    console.log(response);
+
+    //refresh posts -> refetch or just delete locally
+    if(response.status == 204){
+      alert("this post was deleted successfully.");
+      getPosts();
+    }
+  }
+
+  const upvotePost = async (post) => {
+    const response = await supabase.from('post')
+      .update({upvotes : post.upvotes+1})
+      .eq('id', post.id);
+    console.log(response);
+    
+    if(response.status == 204){
+      alert("this post was upvoted successfully.");
+      getPosts();
+    }
+  }
+
+  const downvotePost = async (post) => {
+    const response = await supabase.from('post')
+      .update({upvotes : post.upvotes-1})
+      .eq('id', post.id);
+    console.log(response);
+    
+    if(response.status == 204){
+      alert("this post was downvoted successfully.");
+      getPosts();
+    }
+  }
+
   return (
     <div>
-      <h1> WELCOME TO MY FORUM </h1>
-
+      <h1 className='text-red-500'> WELCOME TO MY FORUM </h1>
       <button><Link to='/create'> Create a Post</Link></button>
-
       {posts.map((post) => {
         return(
           <div key={post.id} style={{border:"1px solid red"}}>
             <h4>{post.subject}</h4>
             <p>{post.content}</p>
+            <p>Upvotes: {post.upvotes}</p>
+            <button onClick={() => upvotePost(post)}>Upvote</button>
+            <button onClick={() => downvotePost(post)}>Downvote</button>
+            <button onClick={() => deletePost(post.id)}>Delete post</button>
           </div>
       )})}
 
