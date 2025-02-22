@@ -85,26 +85,70 @@ const App = () => {
     }
   }
 
+  const convertTimestampToDate = (timestamp) => {
+    const currentTime = new Date();
+    const postTime = new Date(timestamp);
+    const timeDifference = currentTime - postTime;
+    const timeDifferenceInMinutes = timeDifference / (1000 * 60);
+    const timeDifferenceInHours = timeDifferenceInMinutes / 60;
+    const timeDifferenceInDays = timeDifferenceInHours / 24;
+    const timeDifferenceInWeeks = timeDifferenceInDays / 7;
+    const timeDifferenceInMonths = timeDifferenceInDays / 30;
+    const timeDifferenceInYears = timeDifferenceInDays / 365;
+
+    if(timeDifferenceInMinutes < 1){
+      return 'Just now';
+    }
+    if(timeDifferenceInMinutes < 60){
+      return `${Math.floor(timeDifferenceInMinutes)} minutes ago`;
+    }
+    if(timeDifferenceInHours < 24){
+      return `${Math.floor(timeDifferenceInHours)} hours ago`;
+    }
+    if(timeDifferenceInDays < 7){
+      return `${Math.floor(timeDifferenceInDays)} days ago`;
+    }
+    if(timeDifferenceInWeeks < 4){
+      return `${Math.floor(timeDifferenceInWeeks)} weeks ago`;
+    }
+    if(timeDifferenceInMonths < 12){
+      return `${Math.floor(timeDifferenceInMonths)} months ago`;
+    }
+    if(timeDifferenceInYears >= 1){
+      return `${Math.floor(timeDifferenceInYears)} years ago`;
+    }
+
+    return;
+  }
+
   return (
     <div>
-      <h1 className='text-red-500'> WELCOME TO MY FORUM </h1>
-      <button><Link to='/create'> Create a Post</Link></button>
-      <button onClick={() => {
-        setUpvoteAscending(!upvoteAscending)
-        sortPostByUpvote(posts);
-      }}>sort by upvotes {upvoteAscending ? 'v' : '^'}</button>
-      {posts.map((post) => {
-        return(
-          <div key={post.id} style={{border:"1px solid red"}}>
-            <h4>{post.subject}</h4>
-            <p>{post.content}</p>
-            <p>Upvotes: {post.upvotes}</p>
-            <p>post created at {new Date(post.created_at).toString()}</p>
-            <button onClick={() => upvotePost(post)}>Upvote</button>
-            <button onClick={() => downvotePost(post)}>Downvote</button>
-            <button onClick={() => deletePost(post.id)}>Delete post</button>
-          </div>
-      )})}
+      <h1 className='text-[#FCA311] text-center p-4'>Class Discussion Board </h1>
+      <div className='flex justify-center items-center gap-4 p-2'>
+        <Link to='/create' className='border px-[1.2em] py-[0.6em] rounded-[8px] bg-[#1a1a1a] border-transparent hover:border-[#FCA311] '> Create a Post</Link>
+        <button onClick={() => {
+          setUpvoteAscending(!upvoteAscending)
+          sortPostByUpvote(posts);
+        }}>sort by upvotes {upvoteAscending ? 'v' : '^'}</button>
+      </div>
+      <div className='p-4 grid grid-cols-4 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+        {posts.map((post) => {
+          return(
+            <div key={post.id} className='border p-4 rounded-[8px] bg-[#2a2a2a]'>
+              <div className='flex gap-4 items-center'>
+                <h4 className="text-3xl font-bold">{post.subject}</h4>
+                <p>{convertTimestampToDate(post.created_at)}</p>
+              </div>
+              <p className='text-xl pt-2'>{post.content}</p>
+              <div className='flex items-center gap-4 justify-center'>
+                <p>Upvotes: {post.upvotes}</p>
+                <button onClick={() => upvotePost(post)}>Upvote</button>
+                <button onClick={() => downvotePost(post)}>Downvote</button>
+                <button onClick={() => deletePost(post.id)}>Delete post</button>
+              </div>
+            </div>
+        )})}
+      </div>
 
     </div>
   )
