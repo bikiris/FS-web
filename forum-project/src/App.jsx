@@ -23,9 +23,27 @@ const App = () => {
 
   const [posts, setPosts] = useState([]);
 
+  //false -> from most to least, true -> from least to most
+  const [upvoteAscending, setUpvoteAscending] = useState(false);
+
+  const sortPostByUpvote = (unsortedPosts) => {
+    const sortedPosts = unsortedPosts;
+
+    sortedPosts.sort((postA, postB) => {
+      //compare by upvotes
+      if(postA.upvotes > postB.upvotes){
+        return upvoteAscending ? 1 : -1; //determine the order based on ascending status
+      }else {
+        return upvoteAscending ? -1 : 1;
+      }
+    })
+    //set the sorted post data
+    setPosts(sortedPosts);
+  }
+
   const getPosts = async () => {
     const response = await supabase.from('post').select();
-    setPosts(response.data)
+    sortPostByUpvote(response.data);
   }
 
   useEffect(() => {
@@ -71,12 +89,17 @@ const App = () => {
     <div>
       <h1 className='text-red-500'> WELCOME TO MY FORUM </h1>
       <button><Link to='/create'> Create a Post</Link></button>
+      <button onClick={() => {
+        setUpvoteAscending(!upvoteAscending)
+        sortPostByUpvote(posts);
+      }}>sort by upvotes {upvoteAscending ? 'v' : '^'}</button>
       {posts.map((post) => {
         return(
           <div key={post.id} style={{border:"1px solid red"}}>
             <h4>{post.subject}</h4>
             <p>{post.content}</p>
             <p>Upvotes: {post.upvotes}</p>
+            <p>post created at {new Date(post.created_at).toString()}</p>
             <button onClick={() => upvotePost(post)}>Upvote</button>
             <button onClick={() => downvotePost(post)}>Downvote</button>
             <button onClick={() => deletePost(post.id)}>Delete post</button>
