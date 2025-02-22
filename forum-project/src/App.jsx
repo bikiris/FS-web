@@ -24,17 +24,19 @@ const App = () => {
   const [posts, setPosts] = useState([]);
 
   //false -> from most to least, true -> from least to most
-  const [upvoteAscending, setUpvoteAscending] = useState(false);
+  const [timeAscending, settimeAscending] = useState(false);
 
-  const sortPostByUpvote = (unsortedPosts) => {
+  const sortPostByTime = (unsortedPosts) => {
     const sortedPosts = unsortedPosts;
 
     sortedPosts.sort((postA, postB) => {
       //compare by upvotes
-      if(postA.upvotes > postB.upvotes){
-        return upvoteAscending ? 1 : -1; //determine the order based on ascending status
+      const postATime = new Date(postA.created_at);
+      const postBTime = new Date(postB.created_at);
+      if(postATime > postBTime){
+        return timeAscending ? 1 : -1; //determine the order based on ascending status
       }else {
-        return upvoteAscending ? -1 : 1;
+        return timeAscending ? -1 : 1;
       }
     })
     //set the sorted post data
@@ -43,7 +45,7 @@ const App = () => {
 
   const getPosts = async () => {
     const response = await supabase.from('post').select();
-    sortPostByUpvote(response.data);
+    sortPostByTime(response.data);
   }
 
   useEffect(() => {
@@ -127,9 +129,9 @@ const App = () => {
       <div className='flex justify-center items-center gap-4 p-2'>
         <Link to='/create' className='border px-[1.2em] py-[0.6em] rounded-[8px] bg-[#1a1a1a] border-transparent hover:border-[#FCA311] '> Create a Post</Link>
         <button onClick={() => {
-          setUpvoteAscending(!upvoteAscending)
-          sortPostByUpvote(posts);
-        }}>sort by upvotes {upvoteAscending ? 'v' : '^'}</button>
+          settimeAscending(!timeAscending)
+          sortPostByTime(posts);
+        }}>Sort by Time {timeAscending ? 'v' : '^'}</button>
       </div>
       <div className='p-4 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
         {posts.map((post) => {
