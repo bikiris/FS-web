@@ -131,7 +131,7 @@ const App = () => {
           sortPostByUpvote(posts);
         }}>sort by upvotes {upvoteAscending ? 'v' : '^'}</button>
       </div>
-      <div className='p-4 grid grid-cols-4 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+      <div className='p-4 grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
         {posts.map((post) => {
           return(
             <div key={post.id} className='border p-4 rounded-[8px] bg-[#2a2a2a]'>
@@ -140,7 +140,7 @@ const App = () => {
                 <p>{convertTimestampToDate(post.created_at)}</p>
               </div>
               <p className='text-xl pt-2'>{post.content}</p>
-              <div className='flex items-center gap-4 justify-center'>
+              <div className='flex items-center gap-4 justify-center flex-wrap lg:flex-nowrap'>
                 <p>Upvotes: {post.upvotes}</p>
                 <button onClick={() => upvotePost(post)}>Upvote</button>
                 <button onClick={() => downvotePost(post)}>Downvote</button>
