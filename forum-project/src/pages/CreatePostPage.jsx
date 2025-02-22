@@ -42,9 +42,9 @@ const CreatePostPage = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center h-[100vh]">
-      <form onSubmit={(e) => createPost(e)} className='flex flex-col gap-4 p-8 max-w-5xl '>
-        <h3 className='text-5xl'>Make a post</h3>
+    <div className="flex flex-col justify-center items-center  h-[100vh]">
+      <form onSubmit={(e) => createPost(e)} className='flex flex-col gap-4 p-8 max-w-5xl w-full'>
+        <h3 className='text-5xl text-center'>Make a post</h3>
         <input type='text' placeholder='Enter your subject' id='subject'
           className='bg-black py-2 px-4 border rounded-[8px]'/>     
         <textarea placeholder='Enter your post message in here' id='message'
