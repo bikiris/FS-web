@@ -13,6 +13,7 @@ const ProductPage = () => {
         {ProductsData.map((product, index) => {
           return (
             <ProductItem key={index} 
+                id={product.id}
                 imgLink={product.imgLink} 
                 productName={product.productName} 
                 price={product.price} />

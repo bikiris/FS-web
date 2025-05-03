@@ -2,11 +2,11 @@ import { useNavigate } from "react-router-dom";
 
 import { motion } from 'motion/react';
 
-const ProductItem = ({imgLink, productName, price}) => {
+const ProductItem = ({id, imgLink, productName, price}) => {
 
   const navigate = useNavigate();
   const openProductPage = () => {
-    navigate('/products/1');
+    navigate(`/products/${id}`);
   }
 
   return (

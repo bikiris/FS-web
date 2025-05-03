@@ -3,8 +3,12 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import Router from './Router.jsx'
 
+import { CartProvider } from './utils/CartProvider.jsx'
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Router />
+    <CartProvider>
+      <Router />
+    </CartProvider>
   </StrictMode>,
 )

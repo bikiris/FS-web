@@ -1,12 +1,21 @@
 import Navbar from "../components/Navbar";
 import { useState } from "react";
 
+import ProductsData from "../data/ProductsData";
+import { useParams } from "react-router-dom";
+
+import { useContext } from "react";
+import { CartContext } from "../utils/CartProvider";
+
 const ProductInfoPage = () => {
-  const colors = ["Black", "White", "Blue", "Red"];
+
+  const { addToCart } = useContext(CartContext);
+
+  const { id } = useParams();
+  const product = ProductsData.find((product) => product.id === parseInt(id));
+  const colors = product.colorOptions;
   const [currentColor, setCurrentColor] = useState(colors[0]);
-
   const [showDetails, setShowDetails] = useState(false);
-
   const [showShipping, setShowShipping] = useState(false);
 
   return (
@@ -16,13 +25,13 @@ const ProductInfoPage = () => {
       <div className='grid grid-cols-2 pt-20'>
         {/* product image */}
         <div className='p-4 h-full flex justify-center items-start'>
-          <img src='https://www.stussy.com/cdn/shop/files/338380_BBLE_1.jpg?v=1742466347&width=480' />
+          <img src={product.imgLink} />
         </div>
 
         {/* product info */}
         <div className='p-4'>
-          <p className='font-bold text-xl'>LANDON SUNGLASSES</p>
-          <p className='pt-5'>$160</p>
+          <p className='font-bold text-xl'>{product.productName}</p>
+          <p className='pt-5'>${product.price}</p>
 
           {/* colors */}
           <div className='pt-5'>
@@ -48,7 +57,7 @@ const ProductInfoPage = () => {
           {/* sizes */}
           <div></div>
 
-          <button className='mt-4'>add to cart</button>
+          <button className='mt-4' onClick={() => addToCart(product.id)}>add to cart</button>
 
           <div className='pt-4 flex flex-col '>
             {/* header */}
@@ -61,18 +70,7 @@ const ProductInfoPage = () => {
             {/* actual text */}
             {showDetails ? (
               <p className='text-sm border p-2'>
-                Classic sport frames with a slightly tapered silhouette.
-                Handmade in grey bio-acetate with silver flare recycled lenses.
-                Features laser-engraved logo detailing at the lens corner and
-                metal SS link plates at the temples.
-                <br />
-                - 100% UVA/UVB protection
-                <br />
-                - Five barrel hinges
-                <br />- Unisex - Wider fit - Frame width: 5.5" / 140mm - Frame
-                material: 100% bio-acetate - Lens material: 100% nylon (50%
-                recycled) - Includes branded case and cleaning cloth - Made in
-                Japan
+                {product.description}
               </p>
             ) : (
               <></>
