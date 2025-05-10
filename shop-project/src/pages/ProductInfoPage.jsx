@@ -57,7 +57,7 @@ const ProductInfoPage = () => {
           {/* sizes */}
           <div></div>
 
-          <button className='mt-4' onClick={() => addToCart(product.id)}>add to cart</button>
+          <button className='mt-4' onClick={() => addToCart(product.id, currentColor, 1)}>add to cart</button>
 
           <div className='pt-4 flex flex-col '>
             {/* header */}
