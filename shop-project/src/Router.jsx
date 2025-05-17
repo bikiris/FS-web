@@ -4,6 +4,7 @@ import App from "./App";
 import ProductPage from "./pages/ProductPage";
 import ProductInfoPage from "./pages/ProductInfoPage";
 import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
 const router = createBrowserRouter([
   {
     path: '/',
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
     path: '/cart',
     element: <CartPage />,
   },
+  {
+    path:'/checkout',
+    element: <CheckoutPage />,
+  }
 ]);
 
 export default function Router() {
