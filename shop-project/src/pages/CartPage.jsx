@@ -47,29 +47,29 @@ const CartPage = () => {
           </div>
         ))}
 
-        <div className="flex flex-col p-4 gap-1 tracking-wide">
-          <h1 className="text-3xl">Summary</h1>
-          <div className='flex justify-between'> 
-            <p>Subtotal </p>
-            <p>${getTotalCost().toFixed(2)}</p>
-          </div>
-          
-          <div className='flex justify-between'>
-            <p>Estimated Shipping & Handlings </p>
-            <p>FREE</p>
-          </div>
+          <div className="flex flex-col p-4 gap-1 tracking-wide">
+            <h1 className="text-3xl">Summary</h1>
+            <div className='flex justify-between'> 
+              <p>Subtotal </p>
+              <p>${getTotalCost().toFixed(2)}</p>
+            </div>
+            
+            <div className='flex justify-between'>
+              <p>Estimated Shipping & Handlings </p>
+              <p>FREE</p>
+            </div>
 
-          <div className='flex justify-between'>
-            <p>Estimated Tax</p>
-            <p>--</p>
-          </div>
+            <div className='flex justify-between'>
+              <p>Estimated Tax</p>
+              <p>--</p>
+            </div>
 
-          <div className='flex justify-between pt-2 font-bold'>
-            <p>Total </p>
-            <p>${getTotalCost().toFixed(2)}</p>
+            <div className='flex justify-between pt-2 font-bold'>
+              <p>Total </p>
+              <p>${getTotalCost().toFixed(2)}</p>
+            </div>
           </div>
         </div>
-      </div>
 
       <div className='w-full fixed bottom-0
           flex justify-stretch p-4 bg-[#333] '>

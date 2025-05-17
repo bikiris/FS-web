@@ -4,8 +4,21 @@ import { CartContext } from "../utils/CartProvider";
 import { useContext } from "react";
 import ProductsData from "../data/ProductsData";
 
+import { useNavigate } from "react-router-dom";
+
 function CheckoutPage() {
-  const { cart, getTotalCost } = useContext(CartContext);
+  const { cart, getTotalCost, clearCart } = useContext(CartContext);
+
+  const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    setTimeout(() => {
+      navigate("/");
+    }, 5000);
+    clearCart();
+    window.alert("Checkout successful!");
+    
+  }
 
   return (
     <div>
@@ -51,7 +64,7 @@ function CheckoutPage() {
             </div>
           </div>
 
-          <form>
+          <form className="pt-8 flex flex-col gap-2">
             <p>Shipping Information</p>
             <div>    
               <label for='email'>Email</label>
@@ -59,7 +72,7 @@ function CheckoutPage() {
                 id='email'
                 type='email'
                 placeholder='example@abc.com'
-                className='border border-gray-400 p-2 w-full'
+                className='border border-gray-400 p-2 w-full rounded-md mt-2'
               />
             </div>
             <div className="flex flex-col">    
@@ -68,7 +81,7 @@ function CheckoutPage() {
                 id='fullname'
                 type='text'
                 placeholder='Full name'
-                className="border border-gray-400 p-2 rounded-t-md text-gray-100"
+                className="border border-gray-400 p-2 rounded-t-md text-gray-100 mt-2"
               />
               <input
                 id='address'
@@ -79,6 +92,42 @@ function CheckoutPage() {
             </div>
           </form>
 
+          <form className="pt-8 flex flex-col gap-2">
+              <h1>Payment Information</h1>
+              <div className="flex flex-col">
+                <label>Card number</label>
+                <input 
+                  type='text'
+                  placeholder='1234 5678 9012 3456'
+                  id="card-number"
+                  className="border border-gray-400 p-2 rounded-md"
+                />
+              </div>
+
+              <div className="flex gap-4 overflow-hidden">
+                <div className="flex flex-col flex-auto">
+                  <label>Expiration date</label>
+                  <input 
+                    type='text'
+                    placeholder='MM/YY'
+                    id='expiration-date'
+                    className="border border-gray-400 p-2 rounded-md"
+                  />
+                </div>
+                <div className="flex flex-col flex-auto">
+                  <label>Security code</label>
+                  <input 
+                    type='text'
+                    placeholder='123'
+                    id="security-code"
+                    className="border border-gray-400 p-2 rounded-md"
+                  />
+                  </div>
+              </div>
+          </form>
+
+          
+          <button className="mt-8 !bg-blue-600" onClick={handleCheckout}>Pay</button>
           
         </div>
       </div>
